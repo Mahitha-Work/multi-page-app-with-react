@@ -3,10 +3,10 @@ name: Build and Deploy Multi-Page App
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
     branches:
-      - main
+      - master
 
 # Opt into Node 24 for the runner engine to avoid deprecation warnings
 env:
