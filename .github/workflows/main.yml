@@ -1,1 +1,51 @@
+name: Build and Deploy Multi-Page App
 
+on:
+  push:
+    branches:
+      - main
+  # Added pull_request trigger to catch linting errors before merging
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      #  NEW STEP: Run ESLint
+      - name: Run ESLint
+        run: npm run lint
+        # This will fail the build if there are ESLint errors
+
+      # This step only runs on pushes to main, not on pull requests
+      - name: Build Project (Webpack)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: npm run build
+
+      # This step only runs on pushes to main, not on pull requests
+      - name: Deploy to GitHub Pages
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist
+          branch: gh-pages
+          git-config-name: 'GitHub Action'
+          git-config-email: 'action@github.com'
