@@ -23,7 +23,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
           cache: 'npm'
 
       - name: Install dependencies
@@ -36,7 +36,7 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: dist # <-- CHANGE THIS to 'build' if your Webpack outputs to build/
+          folder: build # <-- CHANGE THIS to 'build' if your Webpack outputs to build/
           branch: gh-pages # The branch the action should deploy to
           git-config-name: 'GitHub Action'
           git-config-email: 'action@github.com'
