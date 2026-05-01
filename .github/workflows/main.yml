@@ -4,7 +4,7 @@ name: Build and Deploy Multi-Page App
 on:
   push:
     branches:
-      - main  # Trigger workflow only on pushes to main
+      - master  # Trigger workflow only on pushes to main
 
 # 2. Permissions
 permissions:
